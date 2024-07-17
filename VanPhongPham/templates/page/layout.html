@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/HandWriting.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'js/bootstrap.min.js' %}" type="">
+    <link rel="stylesheet" href="{% static 'js/bootstrap.bundle.min.js' %}" type="">
+</head>
+<body>
+    <!-- Header -->
+    <div id="Header">
+        <div class="bg-secondary text-white" id="Header_top">
+            <div class="d-flex" style="margin: 0 100px 0 100px">
+                <div class="m-2 me-auto">Hệ thống bán sỉ văn phòng phẩm giá rẻ trên toàn quốc</div>
+                {% if request.user.is_authenticated %}
+                <div class="m-2 d-flex">
+                    <span style="padding-right: 10px;">{{ request.user }}</span>
+                    <a class="nav-link active" href="{% url 'DangXuat' %}">
+                        <i class="fas fa-sign-out-alt" style="margin-right: 7px;"></i>Đăng xuất
+                    </a>
+                </div>
+                {% else %}
+                <div class="m-2">
+                    <a class="nav-link active" href="{% url 'DangNhap' %}">
+                        <i class="fa-regular fa-user" style="margin-right: 7px;"></i>Đăng nhập
+                    </a>
+                </div>
+                <div class="m-2">
+                    <a class="nav-link active" href="{% url 'DangKy' %}">
+                        <i class="fa-solid fa-lock" style="margin-right: 7px;"></i>Đăng ký
+                    </a>
+                </div>
+                {% endif %}
+                <div class="m-2"><i class="fa-solid fa-phone"></i>Gọi đặt hàng: 024 2246 2003</div>
+            </div>
+        </div>
+
+        <div class="d-flex" style="margin: 0 100px 0 100px">
+            <img class="m-2 me-auto" src="{% static 'images/logo.png' %}" alt="logo">
+            <form class="d-flex align-self-center" method="get" action="{% url 'DSSP' 0 %}" style="height: 50px;">
+                {% csrf_token %}
+                <input class="form-control" name="q" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" style="width: 500px;">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="ms-auto align-self-center" id="GioHang" style="margin-right: 200px; border-radius: 10px; padding: 8px; border: 1px solid red;">
+                <a href="{% url 'GioHang'  %}">
+                    <img src="{% static 'icons/shopping-cart.png' %}" height="40px" style="padding-right: 10px; float: left;">
+                    <div style="float: right; font-size: 14px;">
+                        <p style="padding: 0; margin: 0;">Giỏ hàng</p>
+                        <span> ({{ request.session.so_luong|default:0 }}) sản phẩm</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav bar -->
+    <div class="bg-light" id="Nav_bar" style="position: relative;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="margin-left: 100px; padding: 0;">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav_item">
+                            <a  aria-current="page" href="{% url 'TrangChu'  %}"><i class="fa-solid fa-house" style="margin-right: 7px;"></i>Trang chủ</a>
+                        </li>
+                        <li class="nav_item" id="SanPham">
+                            <a  href="{% url 'DSSP' 0 %}"><img src="{% static 'icons/stationery.png' %}" style="margin-right: 7px;" height="18px" width="18px"></img>Sản phẩm</a>
+                        </li>
+                        <li class="nav_item" id="Blog">
+                            <a  href="{% url 'Blog' %}"><img src="{% static 'icons/blog.png' %}" style="margin-right: 7px;" height="18px" width="18px">Blog</a>
+                            <ul class="list-unstyled" id="Blog_child">
+                                <li><a href="#">Tư vấn</a></li>
+                                <li><a href="#">Tin tức</a></li>
+                                <li><a href="#">Green Project</a></li>
+                                <li><a href="#">Tin khuyến mãi</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav_item">
+                            <a  href="{% url 'LienHe' %}" tabindex="-1" aria-disabled="true"><img src="{% static 'icons/placeholder.png' %}" style="margin-right: 7px;" height="18px" width="18px">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="Category" style="margin: 0 100px 0 100px">
+            <table class="table table-borderless">
+                <thead style="font-size: 12;">
+                    <th><p class="dropdown-item" style="font-weight: bold; margin: 0;">Bút</p></th>
+                    <th><p class="dropdown-item" style="font-weight: bold; margin: 0;">Sổ</p></th>
+                    <th><p class="dropdown-item" style="font-weight: bold; margin: 0;">Đồ dùng văn phòng</p></th>
+                    <th><p class="dropdown-item" style="font-weight: bold; margin: 0;">Giấy văn phòng</p></th>
+                    <th><p class="dropdown-item" style="font-weight: bold; margin: 0;">Máy tính văn phòng</p></th>
+                </thead>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 1 %}">Bút bi - Bút gel - Bút semi gel</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 7 %}">Sổ bia da</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 12 %}">Lưu trữ tài liệu</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 19 %}">Giấy Photo Hồng Hà</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 22 %}">Máy tính Casio</a></td>
+                </tr>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 2 %}">Bút chì</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 8 %}">Sổ bia Còng</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 13 %}">File nan, khay tầng</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 20 %}">Phong Bì</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 23 %}">Máy tính Canon</a></td>
+                </tr>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 3 %}">Bút ký cao cấp</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 9 %}">Số lò xo</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 14 %}">Cặp trình ký</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 21 %}">Giấy ghi chú - Phân trang</a></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 4 %}">Bút highlight</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 10 %}">Sổ bìa bồi</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 15 %}">Kẹp bướm - kẹp giấy</a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 5 %}">Bút dạ bảng, bút lông dầu</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 11 %}">Sổ giáo án</a></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 16 %}">Kéo - Dao rọc giấy</a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 6 %}">Bút xoá</a></td>
+                    <td></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 17 %}">Dập ghim, Đục lỗ</a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><a class="dropdown-item" href="{% url 'DSSP' 18 %}">Văn phòng phẩm khác</a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div id="Content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <!-- Ads -->
+    <div id="ads" style="margin-top: 50px;">
+        <div style="margin: 0 100px 0 100px">
+            <img src="{% static 'images/ads_1.png' %}" height="200px">
+            <img src="{% static 'images/ads_2.png' %}" height="100px" style="margin-left: 50px;">
+            <a href="#"><img src="{% static 'images/ads_3.png' %}" style="margin-left: 300px;"></a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin: 0 100px 0 100px" id="Footer">
+        <div class="row lh-base" style="font-size: 12px;">
+            <div class="col">
+                <img class="m-2" src="{% static 'images/logo.png' %}" alt="logo">
+                <p>
+                    <b>Website bán hàng trực tuyến của công ty cổ phần Văn phòng phẩm Hồng Hà</b>
+                    <br>
+                    ĐKKD 0100100216 do Sở KH&ĐT TP. Hà Nội cấp ngày 28/12/2005
+                    <br>
+                    Địa chỉ: Tầng 1, TTTM 25 Lý Thường Kiệt, Phường Phan Chu Trinh, Quận Hoàn Kiếm, Thành phố Hà Nội.
+                    <br>
+                    Điện thoại: 024 2246 2003
+                    <br>
+                    Email: dvkh@vpphongha.com.vn
+                </p>
+            </div>
+            <div class="col m-4">
+                <p>
+                    <b class="fs-5">Chính sách bán hàng</b>
+                    <br><br>
+                    <ul class="list-unstyled" id="ChinhSach" style="line-height: 2.5;">
+                        <li><a class="text-decoration-none text-dark" href="#">Giới thiệu</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Hướng dẫn đặt hàng</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Hướng dẫn thanh toán</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Chính sách vận chuyển</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Sử dụng voucher/e-voucher</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Chính sách bán hàng trên Website</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Chính sách đổi trả</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Cam kết chính hãng</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Chính sách bảo mật thông tin</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Catalogue sản phẩm 2022</a></li>
+                        <li><a class="text-decoration-none text-dark" href="#">Sơ đồ website</a></li>
+                    </ul>
+                    <br><br>
+                    <b class="fs-5">Hình thức thanh toán</b>
+                    <br><br>
+                    <img src="{% static 'icons/visa.png' %}" height="40px">
+                    <img src="{% static 'icons/card.png' %}" height="40px">
+                    <img src="{% static 'icons/jcb.png' %}" height="40px">
+                    <img src="{% static 'icons/money-stack.png' %}" height="40px">
+                    <img src="{% static 'icons/atm.png' %}" height="40px">
+                </p>
+            </div>
+            <div class="col m-4">
+                <p>
+                    <b class="fs-5">Hotline liên hệ</b>
+                    <br><br>
+                    <div style="width: 180px;">
+                        <img src="{% static 'icons/telephone.png' %}" height="50px">
+                        <p style="float: right; color: red;">
+                            0898081959
+                            <br>
+                            <span class="text-secondary">08h00-17h00 (T2-T6)</span>
+                        </p>
+                    </div>
+                    <br><br>
+                    <b class="fs-5">Kết nối với chúng tôi</b>
+                    <br><br>
+                    <img src="{% static 'icons/facebook.png' %}" height="40px">
+                    <img src="{% static 'icons/youtube.png' %}" height="40px">
+                    <img src="{% static 'icons/instagram.png' %}" height="40px">
+                    <img src="{% static 'icons/twitter.png' %}" height="40px">
+                    <br><br>
+                    <b class="fs-5">Chứng nhận</b>
+                    <br><br>
+                    <img src="{% static 'images/ChungNhan.png' %}" height="100px">
+                </p>
+            </div>
+            <div class="col m-4">
+                <p>
+                    <b class="fs-5">Hệ thống cửa hàng</b>
+                    <br><br>
+                    <b>Lý Thường Kiệt</b>
+                    <br>
+                    25 Lý Thường Kiệt, Hoàn Kiếm, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.2243.2603
+                    <br>
+                    <b>Vincom Long Biên</b>
+                    <br>
+                    Tầng 1, TTTM Vincom Plaza Long Biên, P. Phúc Lợi, Q. Long Biên, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.66.855.955
+                    <br>
+                    <b>Phạm Ngọc Thạch</b>
+                    <br>
+                    Kiot 14-15 B10 Phạm Ngọc Thạch, P.Kim Liên, Q. Đống Đa, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.6684.6854
+                    <br>
+                    <b>An Trạch</b>
+                    <br>
+                    114 An Trạch P. Cát Linh, Q. Đống Đa, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.2212.2277
+                    <br>
+                    <b>Trương Công Giai</b>
+                    <br>
+                    55 Trương Công Giai, P. Dịch Vọng, Q. Cầu Giấy, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.2213.3377
+                    <br>
+                    <b>Chu Văn An</b>
+                    <br>
+                    Số 1 Chu Văn An, P. Yết Kiêu, Q. Hà Đông, TP. Hà Nội
+                    <br>
+                    Điện thoại: 024.66.822.922
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //Navbar dropdown
+        function displayCategory() {
+            document.getElementById("Category").style.display = "block";
+        }
+
+        function hideCategory(event) {
+            setTimeout(function() {
+                if (!event.relatedTarget || (!event.relatedTarget.closest('#Category') && !event.relatedTarget.closest('#SanPham'))) {
+                    document.getElementById("Category").style.display = "none";
+                }
+            }, 100);
+        }
+
+        document.getElementById("SanPham").addEventListener("mouseenter", displayCategory);
+        document.getElementById("SanPham").addEventListener("mouseout", hideCategory);
+        document.getElementById("Category").addEventListener("mouseenter", displayCategory);
+        document.getElementById("Category").addEventListener("mouseout", hideCategory);
+
+        //Product menu dropdown
+        document.addEventListener("DOMContentLoaded", function() {
+            var menuItems = document.querySelectorAll('.Menu_sp > li');
+
+            // Lặp qua từng mục menu và thêm sự kiện click
+            menuItems.forEach(function(menuItem) {
+                var dropdownMenu = menuItem.querySelector('.Dropdown_menu');
+                var menuToggle = menuItem.querySelector('a');
+                var icon = menuToggle.querySelector('i');
+
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
+
+                    // Ẩn tất cả các dropdown menu trước khi hiển thị dropdown menu được nhấp
+                    menuItems.forEach(function(item) {
+                        var menu = item.querySelector('.Dropdown_menu');
+                        var toggleIcon = item.querySelector('i');
+                        if (menu !== dropdownMenu) {
+                            menu.style.display = 'none';
+                            toggleIcon.classList.remove('fa-sort-up');
+                            toggleIcon.classList.add('fa-sort-down');
+                            item.classList.remove('menu_selected'); // Loại bỏ lớp màu đỏ từ menu khác
+                        }
+                    });
+
+                    // Đảo ngược trạng thái hiển thị của dropdown menu được nhấp
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+
+                    // Thay đổi class của thẻ <i> tương ứng
+                    if (dropdownMenu.style.display === 'block') {
+                        icon.classList.remove('fa-sort-down');
+                        icon.classList.add('fa-sort-up');
+                        menuItem.classList.add('menu_selected'); // Thêm lớp màu đỏ cho menu được chọn
+                    } else {
+                        icon.classList.remove('fa-sort-up');
+                        icon.classList.add('fa-sort-down');
+                        menuItem.classList.remove('menu_selected'); // Loại bỏ lớp màu đỏ khi menu được đóng
+                    }
+                });
+            });
+
+            // Đóng dropdown menu khi nhấp bên ngoài
+            window.addEventListener('click', function(e) {
+                if (!e.target.closest('.Menu_sp')) {
+                    menuItems.forEach(function(menuItem) {
+                        var dropdownMenu = menuItem.querySelector('.Dropdown_menu');
+                        var icon = menuItem.querySelector('i');
+
+                        dropdownMenu.style.display = 'none';
+                        icon.classList.remove('fa-sort-up');
+                        icon.classList.add('fa-sort-down');
+                        menuItem.classList.remove('menu_selected'); // Loại bỏ lớp màu đỏ khi menu được đóng
+                    });
+                }
+            });
+        });
+
+        //Chuyển ảnh trong chi tiết sản phẩm
+        function changeImage(img) {
+            var mainImg = document.getElementById("mainImg");
+            mainImg.src = img.src;
+        }
+
+        //nút tăng giảm sản phẩm trong trong chi tiết sản phẩm
+        document.getElementById('subtractQty').addEventListener('click', function() {
+            var quantityInput = document.getElementById('quantity');
+            var currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        document.getElementById('addQty').addEventListener('click', function() {
+            var quantityInput = document.getElementById('quantity');
+            var currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lấy đường dẫn URL hiện tại
+            const currentUrl = window.location.href;
+
+            // Phân tách URL thành mảng các phần dựa trên dấu /
+            const urlParts = currentUrl.split('/');
+
+            // Lấy số cuối cùng trong mảng
+            const ML_id = urlParts[urlParts.length - 1];
+
+            // Thay đổi action của form thành giá trị tạm thời (ví dụ: "#")
+            const form = document.getElementById("sort-form");
+            form.setAttribute("action", "#");
+
+            // Tạo URL mới cho action của form
+            const baseUrl = window.location.origin + '/VanPhongPham/DSSP/';
+            const actionUrl = baseUrl + ML_id;
+            form.setAttribute("data-action-url", actionUrl);
+
+            
+        });
+    </script>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

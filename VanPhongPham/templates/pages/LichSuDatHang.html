@@ -1,0 +1,51 @@
+{% extends "page/layout.html" %}
+{% block title %} Lịch sử đặt hàng {% endblock %}
+{% load custom_filters %}
+{% block content %}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>LỊCH SỬ ĐẶT HÀNG</h4>
+        </div>
+
+        {% if lich_su_don_hang %}
+            <table class = "table text-center">
+                <thead class ="thead-dark bg-secondary table-dark">
+                    <tr>
+                        <td>Mã đơn hàng</td>
+                        <td>Ngày đặt</td>
+                        <td>Thông tin người nhận</td>
+                        <td>Tổng tiền</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in lich_su_don_hang %}
+                        <tr>
+                            <td>{{ item.don_hang.id }}</td>
+                            <td>{{ item.don_hang.ngay_tao|date:"d/m/Y" }}</td>
+                            <td>
+                                {% for ttnn in item.TTNN %}
+                                    Người nhận hàng: {{ ttnn.HoTen }} <br>
+                                    Địa chỉ giao hàng: {{ ttnn.DiaChi }} <br>
+                                    Số điện thoại: {{ ttnn.SDT }} <br>
+                                    Phương thức thanh toán: {{ ttnn.PTTT }} <br>
+                                {% endfor %}
+                            </td>
+                            <td>{{ item.tong_tien|add_commas }} ₫</td>
+                            <td>
+                                <a class="text-primary link-warning" id="Chi_tiet_don_hang" href="{% url 'chitietdonhang' item.don_hang.id %}">Chi tiết đơn hàng</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Bạn chưa bao giờ đặt hàng</p>
+        {% endif %}
+
+        <div class="d-flex" id="Cart_button" style="margin-top: 50px; margin-bottom: 50px;">
+            <a class="me-auto bg-primary" href="{% url 'GioHang' %}">Quay lại</a>
+        </div>
+    </div>    
+{% endblock content %}
+

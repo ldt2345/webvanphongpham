@@ -1,0 +1,180 @@
+{% extends "page/Layout.html" %}
+{% block title %}
+    Danh sách sản phẩm
+{% endblock %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <div class="container-fluid" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class = "row">
+            <div class = "col-3">
+                <div class = "bs-sliderbar">
+                    <div>
+                        <div class="title_page_SP">
+                            <div style="margin-top: 0;">
+                                <span style="color: 707070;">DANH MỤC SẢN PHẨM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="Danh_muc_sp">
+                        <div class="dropdown">
+                            <a class="navbar-brand" href="{% url 'DSSP' 0 %}" style="color: red;">Tất cả sản phẩm</a>
+                            <ul class="Menu_sp">
+                                <li>
+                                    <a id="Menu_but" href="">Bút<i class="fa-solid fa-sort-down"></i></a>
+                                    <ul class="Dropdown_menu" id="Dropdown_menu_but">
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 1 %}">Bút bi - Bút gel - Bút semi gel</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 2 %}">Bút chì</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 3 %}">Bút ký cao cấp</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 4 %}">Bút highlight</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 5 %}">Bút dạ bảng, bút lông dầu</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 6 %}">Bút xoá</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a id="Menu_so" href="">Sổ<i class="fa-solid fa-sort-down"></i></a>
+                                    <ul class="Dropdown_menu" id="Dropdown_menu_so">
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 7 %}">Sổ bia da</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 8 %}">Sổ bia Còng</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 9 %}">Số lò xo</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 10 %}">Sổ bìa bồi</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 11 %}">Sổ giáo án</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a id="Menu_ddvp" href="">Đồ dùng văn phòng<i class="fa-solid fa-sort-down"></i></a>
+                                    <ul class="Dropdown_menu" id="Dropdown_menu_ddvp">
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 12 %}">Lưu trữ tài liệu</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 13 %}">File nan, khay tầng</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 14 %}">Cặp trình ký</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 15 %}">Kẹp bướm - kẹp giấy</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 16 %}">Kéo - Dao rọc giấy</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 17 %}">Dập ghim, Đục lỗ</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 18 %}">Văn phòng phẩm khác</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a id="Menu_giay" href="">Giấy văn phòng<i class="fa-solid fa-sort-down"></i></a>
+                                    <ul class="Dropdown_menu" id="Dropdown_menu_giay">
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 19 %}">Giấy Photo Hồng Hà</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 20 %}">Phong Bì</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 21 %}">Giấy ghi chú - Phân trang</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a id="Menu_maytinh" href="">Máy tính văn phòng<i class="fa-solid fa-sort-down"></i></a>
+                                    <ul class="Dropdown_menu" id="Dropdown_menu_maytinh">
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 22 %}">Máy tính Casio</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'DSSP' 23 %}">Máy tính Canon</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>             
+                </div>
+            </div> 
+            
+            <div class = "col-9">
+                <div class="title-page">
+                    {% if query %}
+                        <h4>Tìm được {{ total_results }} sản phẩm cho từ khóa "{{ query }}"</h4>
+                    {% else %}
+                        {% if loai %}
+                            {% for loai_item in loai %}
+                                <h4>{{ loai_item.TenLoai }}</h4>
+                            {% endfor %}
+                        {% else %}
+                            <h4>Tất cả sản phẩm</h4>
+                        {% endif %}
+                    {% endif %}
+
+                    <form class="d-flex justify-content-end" method="get" action="#" id="sort-form" style="margin-bottom: 20px;">
+                        {% if query %}
+                            <input type="hidden" name="q" value="{{ query }}">
+                        {% endif %}
+                        <select class="form-select" name="sortby" style="width: 150px;">
+                            <option value="">Sắp xếp theo</option>
+                            <option value="price_min" {% if sort_by == "price_min" %}selected{% endif %}>Giá tăng dần</option>
+                            <option value="price_max" {% if sort_by == "price_max" %}selected{% endif %}>Giá giảm dần</option>
+                            <option value="name_asc" {% if sort_by == "name_asc" %}selected{% endif %}>Tên A-Z</option>
+                            <option value="name_desc" {% if sort_by == "name_desc" %}selected{% endif %}>Tên Z-A</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" style="margin-left: 20px;">Tìm kiếm</button>
+                    </form>
+                </div>
+
+                <div style="margin: 0 100px 0 100px; display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 20px;">
+                    {% for sp in results %}
+                    <div class="product_item" style="text-align: center; position: relative; margin-top: 20px; border: 1px #c6c6c6 solid;">
+                        <div class="Product_thumnail">
+                            {% if sp.GiamGia != 0 %}
+                                <span class="label_sale">-{{ sp.GiamGia }}%</span>
+                            {% endif %}
+                            <a href="#"><img src="{{ sp.HinhAnh.url }}" alt="{{ sp.TenSP }}" style="max-height: 150px;"></a>
+                        </div>
+                        <div style="background-color: #f1f1f1;">
+                            <div style="height: 64px; margin-bottom: 5px;" class="Product_name"><a href="#">{{ sp.TenSP }}</a></div>
+                            <div>
+                                {% with sp.So_sao|star_rating as rating %}
+                                    {% for _ in rating.full_stars %}
+                                        <i class="fa-solid fa-star"></i>
+                                    {% endfor %}
+                                    {% if rating.half_star %}
+                                        <i class="fa-solid fa-star-half-alt"></i>
+                                    {% endif %}
+                                    {% for _ in rating.empty_stars %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+                            <span style="font-weight: bold; color: #707070;">Mã sản phẩm: {{ sp.id }}</span>
+                            <div>
+                                {% if sp.GiamGia != 0 %}
+                                    <span class="Product_after_discount">{{ sp.Tien_sau_giamgia|add_commas }} ₫</span>
+                                    <span class="Product_full_price">{{ sp.DonGia|add_commas }} ₫</span>
+                                {% else %}
+                                    <span class="Product_after_discount">{{ sp.Tien_sau_giamgia|add_commas }} ₫</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="product_buttons">
+                                <a class="add_to_cart_button" href="{% url 'ThemVaoGioHang' sp.id %}"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <a class="view_details_button" href="{% url 'ChiTiet' sp.id %}"><i class="fa-regular fa-eye"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Hiển thị phân trang -->
+        <div class="pagination d-flex justify-content-end" style="margin-top: 50px;">
+            {% if results.paginator.num_pages > 1 %}
+                <span class="step-links">
+                    {% if results.has_previous %}
+                        <a href="?page=1">&laquo; First</a>
+                        <a href="?page={{ results.previous_page_number }}">Previous</a>
+                    {% endif %}
+        
+                    <!-- Hiển thị các số trang gần trang hiện tại -->
+                    {% for num in results.paginator.page_range %}
+                        {% if results.number == num %}
+                            <span class="current">{{ num }}</span>
+                        {% elif num > results.number|add:"-3" and num < results.number|add:"3" %}
+                            <a href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+        
+                    {% if results.has_next %}
+                        <a href="?page={{ results.next_page_number }}">Next</a>
+                        <a href="?page={{ results.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+

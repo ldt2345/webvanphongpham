@@ -1,0 +1,15 @@
+{% extends "page/admin_layout.html" %}
+{%block title%} Thêm loại {%endblock%}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>THÊM LOẠI</h4>
+        </div>
+
+        <form action="{% url 'ThemLoai' %}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type = "submit" class="btn btn-primary" value="Thêm loại"/>
+        </form> 
+    </div>  
+{%endblock%}

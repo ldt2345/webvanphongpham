@@ -1,0 +1,61 @@
+{% extends "page/admin_layout.html" %}
+{%block title%} Danh sách sản phẩm{%endblock%}
+{% load custom_filters %}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>Danh SÁCH SẢN PHẨM</h4>
+        </div>
+
+        <table class ="table table-bordered table-hover text-center">
+            <thead class ="table-dark bg-secondary">
+                <tr>
+                    <th class="center-text">Mã sản phẩm</th>
+                    <th class="center-text">Hình</th>
+                    <th class="center-text">Tên sản phẩm</th>
+                    <th class="center-text">Số sao</th>
+                    <th class="center-text">Số lượng đã bán</th>
+                    <th></th>
+                </tr>
+            </thead>
+            {%for sp in dm_sanpham%}
+            <tr>
+                <td>{{sp.id}}</td>
+                <td><img src="{{ sp.HinhAnh.url }}" alt="{{ sp.TenSP }}" style="max-height: 150px;"></td>
+                <td>{{sp.TenSP}}</td>
+                <td>{{sp.So_sao}}</td>
+                <td>{{sp.SLBan}}</td>
+                <td>
+                    <a href="{% url 'SuaSP' sp.id %}">Sửa</a>
+                </td>
+            </tr>
+            {%endfor%}
+        </table>
+
+        <!-- Hiển thị phân trang -->
+        <div class="pagination d-flex justify-content-end" style="margin-top: 50px;">
+            {% if dm_sanpham.paginator.num_pages > 1 %}
+                <span class="step-links">
+                    {% if dm_sanpham.has_previous %}
+                        <a href="?page=1">&laquo; First</a>
+                        <a href="?page={{ dm_sanpham.previous_page_number }}">Previous</a>
+                    {% endif %}
+        
+                    <!-- Hiển thị các số trang gần trang hiện tại -->
+                    {% for num in dm_sanpham.paginator.page_range %}
+                        {% if dm_sanpham.number == num %}
+                            <span class="current">{{ num }}</span>
+                        {% elif num > dm_sanpham.number|add:"-3" and num < dm_sanpham.number|add:"3" %}
+                            <a href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+        
+                    {% if dm_sanpham.has_next %}
+                        <a href="?page={{ dm_sanpham.next_page_number }}">Next</a>
+                        <a href="?page={{ dm_sanpham.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{%endblock%}

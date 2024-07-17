@@ -1,0 +1,15 @@
+{% extends "page/admin_layout.html" %}
+{%block title%} Xóa sản phẩm {%endblock%}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>XOÁ SẢN PHẨM</h4>
+        </div>
+
+        <form action="{% url 'XoaSP' %}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type = "submit" class="btn btn-primary" value="Xóa SP"/>
+        </form>  
+    </div> 
+{%endblock%}

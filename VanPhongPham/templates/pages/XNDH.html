@@ -1,0 +1,29 @@
+{% extends "page/layout.html" %}
+{%block title%} Xác nhận đơn hàng {%endblock%}
+{% load static %}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>XÁC NHẬN ĐƠN HÀNG</h4>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center">Thông tin đơn hàng<img src="{% static 'icons/accept.png' %}" class="checkmark animate-checkmark"></h2>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Mã đơn hàng:</strong> {{ TTNN.id }}</p>
+                        <p><strong>Người nhận hàng:</strong> {{ TTNN.HoTen }}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> {{ TTNN.DiaChi }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ TTNN.SDT }}</p>
+                        <p><strong>Phương thức thanh toán:</strong> {{ TTNN.PTTT }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="thank-you-message text-center" style="margin-top: 50px;">Cảm ơn bạn đã đặt hàng!</h2>
+    </div>
+{%endblock%}

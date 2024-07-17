@@ -1,0 +1,39 @@
+{% extends "page/Layout.html" %}
+{% block title %}
+    Đăng nhập
+{% endblock %}
+{% block content %}
+    <div class="container" style="margin-bottom: 50px;">
+        <div class="title-page" style="margin: 50px 100px 0 100px;">
+            <h4>ĐĂNG NHẬP TÀI KHOẢN</h4>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center">Thông tin cá nhân</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'manual_login' %}" method="POST">
+                            {% csrf_token %}
+                            {% if error_message %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error_message }}
+                                </div>
+                            {% endif %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input class="form-control" type="text" name="username" placeholder="Tên đăng nhập">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password1" class="form-label">Password</label>
+                                <input class="form-control" type="password" name="password" placeholder="Mật khẩu">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

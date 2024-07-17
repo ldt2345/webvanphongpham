@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/HandWriting.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'js/script.js' %}">
+    </head>
+    <body>
+        <div id="Header">
+            <div class="bg-secondary text-white" id="Header_top">
+                <div class="d-flex" style="margin: 0 100px 0 100px">
+                    <div class="m-2 d-flex">
+                        <span style="padding-right: 10px;">{{request.user}}</span>
+                        <a class="nav-link active" href="{% url 'DangXuat'  %}"><i class="fas fa-sign-out-alt" style="margin-right: 7px;"></i>Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class = "row">
+                <div class = "col-3">
+                    <div class = "bs-sliderbar">
+                        <ul class = "nav flex-column">
+                            <li class = "nav-item border bg-warning">
+                                <a class="nav-link" href="{% url 'DSLoai'  %}">Danh mục loại</a>
+                            </li>
+                            <li class = "nav-item ">
+                                <a class = "nav-link" href="{% url 'ThemLoai'  %}">Thêm loại mới</a>
+                            </li>
+                            <li class = "nav-item ">
+                                <a class = "nav-link" href="{% url 'XoaLoai'  %}">Xóa loại</a>
+                            </li>
+                            <li class = "nav-item ">
+                                <a class = "nav-link" href="{% url 'SuaLoai'  %}">Sửa loại</a>
+                            </li>
+                            <li class = "nav-item border bg-warning">
+                                <a class = "nav-link" href=" {% url 'Admin_DSSP'  %}">Danh mục sản phẩm</a>
+                            </li>
+                            <li class = "nav-item ">
+                                <a class = "nav-link" href="{% url 'ThemSP'  %}">Thêm sản phẩm mới</a>
+                            </li>
+                            <li class = "nav-item ">
+                                <a class = "nav-link" href="{% url 'XoaSP'  %}">Xóa sản phẩm</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>  
+                <div class="col-9">
+                    {% block content %}
+                    {% endblock %}
+                </div> 
+            </div>
+        </div>
+    </body>
+</html>

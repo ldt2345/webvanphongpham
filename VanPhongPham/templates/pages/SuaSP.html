@@ -1,0 +1,26 @@
+{% extends "page/admin_layout.html" %}
+{%block title%} Sửa sản phẩm{%endblock%}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>SỬA SẢN PHẨM</h4>
+        </div>
+
+        <form action="{% url 'SuaSP' sp_id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div style="margin-bottom: 30px;">
+                <div class="d-flex" style="flex-wrap: wrap;">
+                    {% for anhphu in sanpham.anhphu_set.all %}
+                        <div class="image-item" style="position: relative; margin: 10px;">
+                            <img src="{{ anhphu.Anh.url }}" height="200px">
+                            <input type="checkbox" name="delete_images" value="{{ anhphu.id }}" style="position: absolute; top: 10px; right: 10px;">
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="file" class="form-control form-control-lg" name="new_image" multiple style="height: 10px;">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Lưu thay đổi"/>
+        </form>  
+    </div> 
+{%endblock%}

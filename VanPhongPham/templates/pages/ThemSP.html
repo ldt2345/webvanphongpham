@@ -1,0 +1,17 @@
+{% extends "page/admin_layout.html" %}
+{%block title%} Thêm sản phẩm{%endblock%}
+{%block content%}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>THÊM SẢN PHẨM</h4>
+        </div>
+
+        <form action="{% url 'ThemSP' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <label for="">Ảnh phụ</label>
+            <input type="file" class="form-control form-control-lg" name="Anh" multiple style="height: 10px; margin-bottom: 30px;">
+            <input type = "submit" class="btn btn-primary" value="Thêm sản phẩm"/>
+        </form>   
+    </div>
+{%endblock%}

@@ -1,0 +1,35 @@
+{% extends "page/layout.html" %}
+{% block title %} Lịch sử đặt hàng {% endblock %}
+{% load custom_filters %}
+{% block content %}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>CHI TIẾT ĐƠN HÀNG</h4>
+        </div>
+
+        <table class = "table text-center">
+            <thead>
+                <tr>
+                    <td>Hình</td>
+                    <td>Tên sản phẩm</td>
+                    <td>Đơn giá</td>
+                    <td>Số lượng</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ctdh %}
+                    <tr>
+                        <td><img src="{{ item.san_pham.HinhAnh.url }}" alt="{{ item.san_pham.TenSP }}" style="max-height: 200px;"></td>
+                        <td>{{ item.san_pham.TenSP }}</td>
+                        <td>{{ item.san_pham.DonGia|add_commas }} ₫</td>
+                        <td>{{ item.so_luong }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="d-flex" id="Cart_button" style="margin-top: 50px; margin-bottom: 50px;">
+            <a class="me-auto bg-primary" href="{% url 'LichSuDatHang' %}">Quay lại</a>
+        </div>
+    </div>    
+{% endblock content %}

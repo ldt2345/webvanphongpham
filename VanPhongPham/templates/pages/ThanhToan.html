@@ -1,0 +1,40 @@
+{% extends "page/layout.html" %}
+{%block title%} Thanh toán {%endblock%}
+{%block content%}
+{% load custom_filters %}
+    <div class="container" style="margin-bottom: 50px; margin-top: 50px;">
+        <div class="title-page">
+            <h4>THANH TOÁN</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <h4 style="margin-bottom: 20px;">Thông tin người nhận</h4>
+                <form action="{% url 'ThanhToan' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type = "submit" class="btn btn-primary" value="Thanh toán"/>
+                </form> 
+            </div>
+
+            <div class="col-4" style="margin-left: 150px;">
+                <h4 style="margin-bottom: 20px;">Đơn hàng</h4>
+                <table class = "table" id="table_don_hang">
+                    <tbody>
+                        {% for item in GioHang %}
+                            <tr>
+                                <td>{{ item.san_pham.TenSP }}</td>
+                                <td>{{ item.san_pham.DonGia|add_commas }} ₫</td>
+                                <td>{{ item.so_luong }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            <div class="d-flex" style="margin-top: 50px;">
+                <h4 class="ms-auto">Tổng tiền: {{ tong_tien|add_commas }} ₫</h4>
+            </div>
+        </div>
+        </div>
+    </div>  
+{%endblock%}

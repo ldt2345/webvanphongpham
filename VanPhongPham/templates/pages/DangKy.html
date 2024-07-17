@@ -1,0 +1,60 @@
+{% extends "page/Layout.html" %}
+{% block title %}
+    Đăng ký
+{% endblock %}
+{% block content %}
+    <div class="container" style="margin-bottom: 50px;">
+        <div class="title-page" style="margin: 50px 100px 0 100px;">
+            <h4>ĐĂNG KÝ TÀI KHOẢN</h4>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center">Thông tin cá nhân</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                {{form.username}}
+                                <!-- Hiển thị thông báo lỗi cho tên người dùng -->
+                                {% for error in form.username.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                {{form.email}}
+                                <!-- Hiển thị thông báo lỗi cho email -->
+                                {% for error in form.email.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password1" class="form-label">Password</label>
+                                {{form.password1}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password2" class="form-label">Re-Password</label>
+                                {{form.password2}}
+                                <!-- Hiển thị thông báo lỗi cho mật khẩu -->
+                                {% for error in form.password2.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

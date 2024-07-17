@@ -1,0 +1,31 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('TrangChu', views.TrangChu, name='TrangChu'),
+    path('admin_page/ThemLoai',views.themloai,name='ThemLoai'),
+    path('admin_page/XoaLoai',views.xoaloai,name='XoaLoai'),
+    path('admin_page/SuaLoai',views.sualoai,name='SuaLoai'),
+    path('admin_page/ThemSP',views.themsp,name='ThemSP'),
+    path('admin_page/XoaSP',views.xoasanpham,name='XoaSP'),
+    path('admin_page/SuaSP/<int:sp_id>',views.suasp,name='SuaSP'),
+    path('admin_page', views.admin, name='admin_page'),
+    path('LienHe', views.lienHe, name='LienHe'),
+    path('Blog', views.blog, name='Blog'),
+    path('GiamGia', views.giamGia, name='GiamGia'),
+    path('DangKy',views.dangKy,name='DangKy'),
+    path('DSSP/<int:ML_id>', views.DSSP, name='DSSP'),
+    path('ChiTiet/<int:sp_id>',views.chitiet,name='ChiTiet'),
+    path('DSLoai',views.list,name='DSLoai'),
+    path('DangNhap', views.dangNhap, name='DangNhap'),
+    path('manual_login', views.manual_login, name='manual_login'),
+    path('DangXuat', views.dangXuat, name='DangXuat'),
+    path('Admin_DSSP',views.Admin_DSSP,name='Admin_DSSP'),
+    path('GioHang', views.giohang, name='GioHang'), 
+    path('GioHang/ThemVaoGioHang/<int:sp_id>',views.themvaogiohang,name = 'ThemVaoGioHang'),
+    path('GioHang/XoaKhoiGioHang/<int:giohang_id>',views.xoakhoigiohang,name = 'XoaKhoiGioHang'),
+    path('ThanhToan', views.thanhtoan, name='ThanhToan'),
+    path('XacNhan/<int:don_hang_id>', views.xacnhandonhang, name='XacNhan'),
+    path('LichSuDatHang', views.lichsudathang, name='LichSuDatHang'),
+    path('ChiTietDonHang/<int:don_hang_id>', views.chitietdonhang, name='chitietdonhang'),  
+]
